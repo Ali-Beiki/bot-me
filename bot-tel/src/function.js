@@ -60,7 +60,7 @@ async function responsHandler(bot, msg, opts) {
         await userInformation(bot, msg, opts);
     }
 
-    if (msg.text == "📚 کانال ما") {
+    if (msg.text == "📚 کانال اموزشی") {
         await getChannelLink(bot, msg);
     }
 

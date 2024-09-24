@@ -334,7 +334,7 @@ async function getChannelLink(bot, msg) {
         console.log("getTicket db :", db);
 
         if (db.channelLink.length === 0)
-            return await bot.sendMessage(process.env.ADMIN_ID, ` در حال حاضر لینکی وجود ندارد 🙂 `);
+            return await bot.sendMessage(msg.chat.id, ` در حال حاضر لینکی وجود ندارد 🙂 `);
 
         db.channelLink.forEach(async (link) => {
             await bot.sendMessage(msg.chat.id, ` ${link} `);

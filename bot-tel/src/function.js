@@ -102,7 +102,7 @@ async function responsHandler(bot, msg, opts) {
             opts
         );
     }
-    if (msg.text == "📧 خدف تیکت") {
+    if (msg.text == "📧 حذف تیکت") {
         await bot.sendMessage(
             msg.chat.id,
             `برای حذف تیکت شناسه تیکت رو در این قالب بفرست : \n\n /delTick شناسه `,

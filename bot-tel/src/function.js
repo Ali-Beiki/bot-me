@@ -281,7 +281,7 @@ async function getTicket(bot) {
     }
 }
 
-async function deleteTicket(bot,msg) {
+async function deleteTicket(bot, msg) {
     try {
         let db = await fs.promises.readFile(path.join(__dirname, "db.json"), "utf8");
         db = JSON.parse(db);
@@ -396,7 +396,7 @@ async function addUserBlock(bot, msg) {
 
         let user = await bot.getChat(user_id);
 
-        bot.db.blockUsers.push({
+        db.blockUsers.push({
             user_id: user.id,
             username: user.username,
             first_name: user.first_name,

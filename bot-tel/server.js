@@ -31,27 +31,96 @@ bot.onText(
             bot,
             msg,
             () => {},
-            middlewares.isAdmin(bot, msg, () => {}, funcBot.saveChannelLink),
+            middlewares.isAdmin,
             () => {},
-            funcBot.saveChannelLink
+            funcBot.saveChannelLink,
+            () => {}
         )
 );
 
-bot.onText("/mess", (msg) => middlewares.isAdmin(bot, msg, () => {}, controller.sendMessage));
-
-bot.onText("/pubMess", (msg) =>
-    middlewares.isAdmin(bot, msg, () => {}, controller.sendPublicMessage)
+bot.onText(
+    "/mess",
+    async (msg) =>
+        await middlewares.isBlock(
+            bot,
+            msg,
+            () => {},
+            middlewares.isAdmin,
+            () => {},
+            controller.sendMessage,
+            () => {}
+        )
 );
 
-bot.onText("/ban", (msg) => middlewares.isAdmin(bot, msg, () => {}, funcBot.addUserBlock));
-bot.onText("/unBan", (msg) => middlewares.isAdmin(bot, msg, () => {}, funcBot.deleteUserBlock));
-bot.onText("/list", (msg) => middlewares.isAdmin(bot, msg, () => {}, funcBot.getUsersBlock));
+bot.onText(
+    "/pubMess",
+    async (msg) =>
+        await middlewares.isBlock(
+            bot,
+            msg,
+            () => {},
+            middlewares.isAdmin,
+            () => {},
+            controller.sendPublicMessage,
+            () => {}
+        )
+);
 
-bot.on("contact", (msg) => controller.contactHandler(bot, msg)); // ذخیره شماره تلفن کاربر در userContacts
+bot.onText(
+    "/ban",
+    async (msg) =>
+        await middlewares.isBlock(
+            bot,
+            msg,
+            () => {},
+            middlewares.isAdmin,
+            () => {},
+            funcBot.addUserBlock,
+            () => {}
+        )
+);
 
-bot.onText("/bot", (msg) => controller.botOrderHandler(bot, msg));
+bot.onText(
+    "/unBan",
+    async (msg) =>
+        await middlewares.isBlock(
+            bot,
+            msg,
+            () => {},
+            middlewares.isAdmin,
+            () => {},
+            funcBot.deleteUserBlock,
+            () => {}
+        )
+);
 
-bot.onText("/site", (msg) => controller.siteOrderHandler(bot, msg));
+bot.onText(
+    "/list",
+    async (msg) =>
+        await middlewares.isBlock(
+            bot,
+            msg,
+            () => {},
+            middlewares.isAdmin,
+            () => {},
+            funcBot.getUsersBlock,
+            () => {}
+        )
+);
+
+bot.on(
+    "contact",
+    async (msg) =>
+        await middlewares.isBlock(
+            bot,
+            msg,
+            () => {},
+            controller.contactHandler,
+            () => {},
+            () => {},
+            () => {}
+        )
+); // ذخیره شماره تلفن کاربر در userContacts
 
 bot.onText(
     "/reqDel",
@@ -67,8 +136,6 @@ bot.onText(
         )
 );
 
-bot.onText("/tick", (msg) => controller.ticketHandler(bot, msg));
-
 bot.onText(
     "/delTick",
     async (msg) =>
@@ -80,6 +147,50 @@ bot.onText(
             () => {},
             funcBot.deleteTicket,
             funcBot.isBlockUser
+        )
+);
+
+// user commnd 👇
+
+bot.onText(
+    "/tick",
+    async (msg) =>
+        await middlewares.isBlock(
+            bot,
+            msg,
+            () => {},
+            controller.ticketHandler,
+            () => {},
+            () => {},
+            () => {}
+        )
+);
+
+bot.onText(
+    "/bot",
+    async (msg) =>
+        await middlewares.isBlock(
+            bot,
+            msg,
+            () => {},
+            controller.botOrderHandler,
+            () => {},
+            () => {},
+            () => {}
+        )
+);
+
+bot.onText(
+    "/site",
+    async (msg) =>
+        await middlewares.isBlock(
+            bot,
+            msg,
+            () => {},
+            controller.siteOrderHandler,
+            () => {},
+            () => {},
+            () => {}
         )
 );
 

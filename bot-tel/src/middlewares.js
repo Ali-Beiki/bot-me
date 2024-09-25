@@ -11,6 +11,22 @@ async function isAdmin(bot, msg, userHandler, adminHandler) {
     }
 }
 
+async function isLogin(bot, msg, unloginHandler, loginHandler) {
+    try {
+        if (msg.chat.id == process.env.ADMIN_ID) return await loginHandler(bot, msg);
+
+        let funcBot = require("./function");
+        if (!(await funcBot.findUser(msg.chat.id))) {
+            await unloginHandler(bot, msg);
+        } else {
+            await loginHandler(bot, msg);
+        }
+    } catch (err) {
+        console.error("Error in middlewares isLogin:", err);
+        return null;
+    }
+}
+
 async function isBlock(
     bot,
     msg,
@@ -21,8 +37,6 @@ async function isBlock(
     validator
 ) {
     try {
-        console.log("func :", validator);
-
         let isBlock = await validator(bot, msg);
 
         if (!isBlock) {
@@ -40,4 +54,5 @@ async function isBlock(
 module.exports = {
     isAdmin,
     isBlock,
+    isLogin,
 };

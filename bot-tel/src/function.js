@@ -260,20 +260,22 @@ async function getTicket(bot) {
         db = JSON.parse(db);
         console.log("getTicket db :", db);
 
+        db.request = db.request.filter((req) => {
+            return req.type == "/tick";
+        });
+
         if (db.request.length === 0)
             return await bot.sendMessage(
                 process.env.ADMIN_ID,
-                ` در حال حاضر درخواستی وجود ندارد 🙂 `
+                ` در حال حاضر تیکتی وجود ندارد 🙂 `
             );
 
         db.request.forEach(async (req) => {
-            if (req.type == "/tick") {
-                await bot.sendMessage(
-                    process.env.ADMIN_ID,
-                    `\n\n شناسه درخواست: <code>${req.id}</code> \n\n نوع: ${req.type} \n\n ایدی کاربر : <code>${req.user_id}</code>  \n\n  نام کاربری : @${req.username}  \n\n  نام مستعار : ${req.first_name} \n\n  شماره تلفن : +${req.phone_number} \n\n زمان : ${req.time} \n\n شرح : ${req.data}  `,
-                    opts
-                );
-            }
+            await bot.sendMessage(
+                process.env.ADMIN_ID,
+                `\n\n شناسه درخواست: <code>${req.id}</code> \n\n نوع: ${req.type} \n\n ایدی کاربر : <code>${req.user_id}</code>  \n\n  نام کاربری : @${req.username}  \n\n  نام مستعار : ${req.first_name} \n\n  شماره تلفن : +${req.phone_number} \n\n زمان : ${req.time} \n\n شرح : ${req.data}  `,
+                opts
+            );
         });
     } catch (err) {
         console.error("Error reading or parsing the file in function getTicket:", err);
@@ -478,6 +480,36 @@ async function isBlockUser(bot, msg) {
         return null;
     }
 }
+async function unLoginUser(bot, msg) {
+    try {
+        const opts = {
+            reply_to_message_id: msg.message_id,
+            reply_markup: JSON.stringify({
+                keyboard: [
+                    [
+                        {
+                            text: "📞 ارسال شماره تلفن",
+                            request_contact: true, // درخواست شماره تلفن
+                        },
+                    ],
+                ],
+                resize_keyboard: true,
+                one_time_keyboard: true,
+            }),
+        };
+        await bot.sendMessage(
+            msg.chat.id,
+            ` برای کار با ربات ما باید شماره تماس شما را بدانیم `,
+            opts
+        );
+
+        return false;
+    } catch (err) {
+        console.error("Error reading or parsing the file in function unLoginUser:", err);
+        return null;
+    }
+}
+
 module.exports = {
     opts,
     formattedDate,
@@ -497,4 +529,5 @@ module.exports = {
     getUsersBlock,
     isBlockUser,
     deleteUserBlock,
+    unLoginUser,
 };

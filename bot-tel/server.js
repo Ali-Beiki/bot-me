@@ -26,86 +26,32 @@ bot.onText(
 
 bot.onText(
     "/link",
-    async (msg) =>
-        await middlewares.isBlock(
-            bot,
-            msg,
-            () => {},
-            middlewares.isAdmin,
-            () => {},
-            funcBot.saveChannelLink,
-            () => {}
-        )
+    async (msg) => await middlewares.isAdmin(bot, msg, () => {}, funcBot.saveChannelLink)
 );
 
 bot.onText(
     "/mess",
-    async (msg) =>
-        await middlewares.isBlock(
-            bot,
-            msg,
-            () => {},
-            middlewares.isAdmin,
-            () => {},
-            controller.sendMessage,
-            () => {}
-        )
+    async (msg) => await middlewares.isAdmin(bot, msg, () => {}, controller.sendMessage)
 );
 
 bot.onText(
     "/pubMess",
-    async (msg) =>
-        await middlewares.isBlock(
-            bot,
-            msg,
-            () => {},
-            middlewares.isAdmin,
-            () => {},
-            controller.sendPublicMessage,
-            () => {}
-        )
+    async (msg) => await middlewares.isAdmin(bot, msg, () => {}, controller.sendPublicMessage)
 );
 
 bot.onText(
     "/ban",
-    async (msg) =>
-        await middlewares.isBlock(
-            bot,
-            msg,
-            () => {},
-            middlewares.isAdmin,
-            () => {},
-            funcBot.addUserBlock,
-            () => {}
-        )
+    async (msg) => await middlewares.isAdmin(bot, msg, () => {}, funcBot.addUserBlock)
 );
 
 bot.onText(
     "/unBan",
-    async (msg) =>
-        await middlewares.isBlock(
-            bot,
-            msg,
-            () => {},
-            middlewares.isAdmin,
-            () => {},
-            funcBot.deleteUserBlock,
-            () => {}
-        )
+    async (msg) => await middlewares.isAdmin(bot, msg, () => {}, funcBot.deleteUserBlock)
 );
 
 bot.onText(
     "/list",
-    async (msg) =>
-        await middlewares.isBlock(
-            bot,
-            msg,
-            () => {},
-            middlewares.isAdmin,
-            () => {},
-            funcBot.getUsersBlock,
-            () => {}
-        )
+    async (msg) => await middlewares.isAdmin(bot, msg, () => {}, funcBot.getUsersBlock)
 );
 
 bot.on(
@@ -124,30 +70,12 @@ bot.on(
 
 bot.onText(
     "/reqDel",
-    async (msg) =>
-        await middlewares.isBlock(
-            bot,
-            msg,
-            () => {},
-            middlewares.isAdmin,
-            () => {},
-            funcBot.deleteRequest,
-            funcBot.isBlockUser
-        )
+    async (msg) => await middlewares.isAdmin(bot, msg, () => {}, funcBot.deleteRequest)
 );
 
 bot.onText(
     "/delTick",
-    async (msg) =>
-        await middlewares.isBlock(
-            bot,
-            msg,
-            () => {},
-            middlewares.isAdmin,
-            () => {},
-            funcBot.deleteTicket,
-            funcBot.isBlockUser
-        )
+    async (msg) => await middlewares.isAdmin(bot, msg, () => {}, funcBot.deleteTicket)
 );
 
 // user commnd 👇
@@ -159,23 +87,24 @@ bot.onText(
             bot,
             msg,
             () => {},
+            middlewares.isLogin,
+            funcBot.unLoginUser,
             controller.ticketHandler,
-            () => {},
-            () => {},
             () => {}
         )
 );
 
 bot.onText(
     "/bot",
+
     async (msg) =>
         await middlewares.isBlock(
             bot,
             msg,
             () => {},
+            middlewares.isLogin,
+            funcBot.unLoginUser,
             controller.botOrderHandler,
-            () => {},
-            () => {},
             () => {}
         )
 );
@@ -187,9 +116,9 @@ bot.onText(
             bot,
             msg,
             () => {},
+            middlewares.isLogin,
+            funcBot.unLoginUser,
             controller.siteOrderHandler,
-            () => {},
-            () => {},
             () => {}
         )
 );
@@ -198,6 +127,6 @@ bot.on("text", async (msg) => {
     let isBlock = await funcBot.isBlockUser(bot, msg);
     console.log(isBlock);
     if (!isBlock) {
-        await controller.textHandler(bot, msg);
+        await middlewares.isLogin(bot, msg, funcBot.unLoginUser, controller.textHandler);
     }
 });

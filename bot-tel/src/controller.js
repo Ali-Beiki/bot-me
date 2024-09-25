@@ -18,22 +18,7 @@ async function userHandler(bot, msg) {
         };
         bot.sendMessage(msg.chat.id, ` چه طور میتونم کمکتون کنم ؟ `, opts);
     } else {
-        const opts = {
-            reply_to_message_id: msg.message_id,
-            reply_markup: JSON.stringify({
-                keyboard: [
-                    [
-                        {
-                            text: "📞 ارسال شماره تلفن",
-                            request_contact: true, // درخواست شماره تلفن
-                        },
-                    ],
-                ],
-                resize_keyboard: true,
-                one_time_keyboard: true,
-            }),
-        };
-        bot.sendMessage(msg.chat.id, ` برای کار با ربات ما باید شماره تماس شما را بدانیم `, opts);
+        return funcBot.unLoginUser(bot, msg);
     }
 }
 

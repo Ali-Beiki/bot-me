@@ -26,5 +26,7 @@ The express package was for receiving https requests so that the robot does not 
 ## Bot in Telegram
 [bot](https://t.me/obashProgramming_bot)
 
+دوستان فعلا بات روی سروری نیست و کار نمی کند ولی سورس ان درست و بی عیب است
+
 
 
